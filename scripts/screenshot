@@ -1,0 +1,22 @@
+#!/bin/bash
+
+DESTDIR="$HOME/Pictures/screenshots/${HOSTNAME}"
+
+if [ ! -d "${DESTDIR}" ]; then
+    mkdir -p "${DESTDIR}"
+fi
+
+DATE=$(date +"%m.%d.%y-%H:%M:%S")
+
+if [[ ! -n $1 ]]; then
+    import "${DESTDIR}/${DATE}.png"
+else
+    if [[ $1 = "root" ]]; then
+        import -window root "${DESTDIR}/root-${DATE}.png"
+    elif [[ $1 = "active" ]]; then
+        WINDOWID=$(xdotool getactivewindow)
+        WINDOWNAME=$(xdotool getactivewindow getwindowname)
+        import -window "${WINDOWID}" "${DESTDIR}/${WINDOWNAME}-${DATE}.png"
+    fi
+fi
+ 
