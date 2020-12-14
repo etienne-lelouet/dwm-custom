@@ -1,6 +1,6 @@
 #!/bin/bash
-
 DESTDIR="$HOME/Pictures/screenshots/${HOSTNAME}"
+FILENAME=""
 
 if [ ! -d "${DESTDIR}" ]; then
     mkdir -p "${DESTDIR}"
@@ -9,14 +9,18 @@ fi
 DATE=$(date +"%m.%d.%y-%H:%M:%S")
 
 if [[ ! -n $1 ]]; then
-    import "${DESTDIR}/${DATE}.png"
+    FILENAME="${DESTDIR}/${DATE}.png"
+    import "${FILENAME}"
 else
     if [[ $1 = "root" ]]; then
-        import -window root "${DESTDIR}/root-${DATE}.png"
+        FILENAME="${DESTDIR}/root-${DATE}.png"
+        import -window root "${FILENAME}"
     elif [[ $1 = "active" ]]; then
         WINDOWID=$(xdotool getactivewindow)
         WINDOWNAME=$(xdotool getactivewindow getwindowname)
-        import -window "${WINDOWID}" "${DESTDIR}/${WINDOWNAME}-${DATE}.png"
+        FILENAME="${DESTDIR}/${WINDOWNAME}-${DATE}.png"
+        import -window "${WINDOWID}" "${FILENAME}"
     fi
 fi
- 
+
+xclip -selection clipboard -t image/png -i "${FILENAME}"
