@@ -32,8 +32,9 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
+	/* class	instance	title		tags mask	isfloating	monitor */
+	{ "Steam",	"Steam",	"Steam",	0,		1,		-1 },
+	{ "qemu",	"qemu",		"QEMU",		0,		1,		-1 }
 };
 
 /* layout(s) */
@@ -51,10 +52,10 @@ static const Layout layouts[] = {
 /* key definitions */
 #define MODKEY Mod1Mask
 #define TAGKEYS(KEY,TAG) \
-	{ MODKEY,                       KEY,      comboview,           {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      combotag,            {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
+	{ MODKEY,                       KEY,      comboview,           	{.ui = 1 << TAG} }, \
+	{ MODKEY|ControlMask,           KEY,      toggleview,     	{.ui = 1 << TAG} }, \
+	{ MODKEY|ShiftMask,             KEY,      combotag,            	{.ui = 1 << TAG} }, \
+	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      	{.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -63,13 +64,11 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
-static const char *mutecmd[] = { "pactl", "set-sink-mute", "0", "toggle", NULL };
-static const char *volupcmd[] = { "pactl", "set-sink-volume", "0", "+5%", NULL };
-static const char *voldowncmd[] = { "pactl", "set-sink-volume", "0", "-5%", NULL };
 
-// does not work as of now, because "no display have backlight property"
-// %wheel ALL=(ALL) NOPASSWD: /usr/bin/xbacklight
-// add this line to sudoers to the commands work properly
+static const char *mutecmd[] = { "volumectl", "m", NULL };
+static const char *volupcmd[] = { "volumectl", "+", "5", NULL };
+static const char *voldowncmd[] = { "volumectl", "-", "5", NULL };
+
 static const char *brupcmd[] = { "brightnessctl", "-d", "intel_backlight", "set", "5%+", NULL };
 static const char *brdowncmd[] = { "brightnessctl", "-d", "intel_backlight", "set", "5%-", NULL };
 
@@ -83,6 +82,10 @@ static const char *printactive[] = {
 
 static const char *printselection[] = {
 	"screenshot", NULL
+};
+
+static const char *pavucontrol[] = {
+	"pavucontrol-qt", NULL
 };
 
 static const char *lockcmd[] = { "slock", NULL };
@@ -112,7 +115,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, 			focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  			tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, 			tagmon,         {.i = +1 } },
-	{ MODKEY|ShiftMask,		XK_l,				spawn, 		{ .v = lockcmd } },
+	{ MODKEY|ShiftMask,		XK_l,				spawn, 		{.v = lockcmd } },
+	{ MODKEY|ShiftMask,		XK_v,				spawn,		{.v = pavucontrol } },
 	{ 0,				XF86XK_AudioMute,		spawn, 		{.v = mutecmd } },
 	{ 0,				XF86XK_AudioLowerVolume,	spawn, 		{.v = voldowncmd } },
 	{ 0,				XF86XK_AudioRaiseVolume,	spawn, 		{.v = volupcmd } },
