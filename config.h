@@ -65,9 +65,9 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
 
-static const char *mutecmd[] = { "volumectl", "m", NULL };
-static const char *volupcmd[] = { "volumectl", "+", "5", NULL };
-static const char *voldowncmd[] = { "volumectl", "-", "5", NULL };
+static const char *mutecmd[] = { "pactl-volumectl", "m", NULL };
+static const char *volupcmd[] = { "pactl-volumectl", "+", "5", NULL };
+static const char *voldowncmd[] = { "pactl-volumectl", "-", "5", NULL };
 
 static const char *brupcmd[] = { "brightnessctl", "-d", "intel_backlight", "set", "5%+", NULL };
 static const char *brdowncmd[] = { "brightnessctl", "-d", "intel_backlight", "set", "5%-", NULL };
