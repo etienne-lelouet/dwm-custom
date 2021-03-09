@@ -73,15 +73,15 @@ static const char *brupcmd[] = { "brightnessctl", "-d", "intel_backlight", "set"
 static const char *brdowncmd[] = { "brightnessctl", "-d", "intel_backlight", "set", "5%-", NULL };
 
 static const char *printroot[] = {
-	"screenshot", "root", NULL
+	"dwmcustom-screenshot", "root", NULL
 };
 
 static const char *printactive[] = {
-	"screenshot", "active", NULL
+	"dwmcustom-screenshot", "active", NULL
 };
 
 static const char *printselection[] = {
-	"screenshot", NULL
+	"dwmcustom-screenshot", NULL
 };
 
 static const char *pavucontrol[] = {
