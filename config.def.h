@@ -92,49 +92,64 @@ static const char *lockcmd[] = { "slock", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        			function        argument */
-	{ MODKEY,                       XK_p,      			spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_Return, 			spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_b,      			togglebar,      {0} },
-	{ MODKEY,                       XK_j,      			focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,      			focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_i,      			incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      			incnmaster,     {.i = -1 } },
-	{ MODKEY,                       XK_h,      			setmfact,       {.f = -0.05} },
-	{ MODKEY,                       XK_l,      			setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_Return, 			zoom,           {0} },
-	{ MODKEY,                       XK_Tab,    			view,           {0} },
-	{ MODKEY|ShiftMask,             XK_c,      			killclient,     {0} },
-	{ MODKEY,                       XK_t,      			setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      			setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      			setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_space,  			setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_space,  			togglefloating, {0} },
-	{ MODKEY,                       XK_0,      			view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,      			tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  			focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, 			focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  			tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, 			tagmon,         {.i = +1 } },
-	{ MODKEY|ShiftMask,		XK_l,				spawn, 		{.v = lockcmd } },
-	{ MODKEY|ShiftMask,		XK_v,				spawn,		{.v = pavucontrol } },
-	{ 0,				XF86XK_AudioMute,		spawn, 		{.v = mutecmd } },
-	{ 0,				XF86XK_AudioLowerVolume,	spawn, 		{.v = voldowncmd } },
-	{ 0,				XF86XK_AudioRaiseVolume,	spawn, 		{.v = volupcmd } },
-	{ 0,				XF86XK_MonBrightnessUp,		spawn, 		{.v = brupcmd} },
-	{ 0,				XF86XK_MonBrightnessDown,	spawn, 		{.v = brdowncmd} },
-	{ 0,				XK_Print,			spawn,		{.v = printactive} },
-	{ MODKEY,			XK_Print,			spawn,		{.v = printroot} },
-	{ ShiftMask,			XK_Print,			spawn,		{.v = printselection} },
-	TAGKEYS(                        0x26,                      0)
-	TAGKEYS(                        0xe9,                      1)
-	TAGKEYS(                        0x22,                      2)
-	TAGKEYS(                        0x27,                      3)
-	TAGKEYS(                        0x28,                      4)
-	TAGKEYS(                        0x2d,                      5)
-	TAGKEYS(                        0xe8,                      6)
-	TAGKEYS(                        0x5f,                      7)
-	TAGKEYS(                        0xe7,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      			quit,           {0} }
+	{ MODKEY,                       XK_p,      					spawn,          {.v = dmenucmd } },
+	{ MODKEY|ShiftMask,             XK_Return, 					spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_b,      					togglebar,      {0} },
+	{ MODKEY,                       XK_j,      					focusstack,     {.i = +1 } },
+	{ MODKEY,                       XK_k,      					focusstack,     {.i = -1 } },
+	{ MODKEY,                       XK_i,      					incnmaster,     {.i = +1 } },
+	{ MODKEY,                       XK_d,      					incnmaster,     {.i = -1 } },
+	{ MODKEY,                       XK_h,      					setmfact,       {.f = -0.05} },
+	{ MODKEY,                       XK_l,      					setmfact,       {.f = +0.05} },
+	{ MODKEY,                       XK_Return, 					zoom,           {0} },
+	{ MODKEY,                       XK_Tab,    					view,           {0} },
+	{ MODKEY|ShiftMask,             XK_c,      					killclient,     {0} },
+	{ MODKEY,                       XK_t,      					setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_f,      					setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_m,      					setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_space,  					setlayout,      {0} },
+	{ MODKEY|ShiftMask,             XK_space,  					togglefloating, {0} },
+	{ MODKEY,                       XK_0,      					view,           {.ui = ~0 } },
+	{ MODKEY|ShiftMask,             XK_0,      					tag,            {.ui = ~0 } },
+	{ MODKEY,                       XK_comma,  					focusmon,       {.i = -1 } },
+	{ MODKEY,                       XK_semicolon,				focusmon,       {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_comma,  					tagmon,         {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_semicolon,				tagmon,         {.i = +1 } },
+	{ MODKEY|ShiftMask,				XK_l,						spawn, 			{.v = lockcmd } },
+	{ MODKEY|ShiftMask,				XK_v,						spawn,			{.v = pavucontrol } },
+	{ 0,							XF86XK_AudioMute,			spawn, 			{.v = mutecmd } },
+	{ 0,							XF86XK_AudioLowerVolume,	spawn, 			{.v = voldowncmd } },
+	{ 0,							XF86XK_AudioRaiseVolume,	spawn, 			{.v = volupcmd } },
+	// because fn is now meta
+	{ MODKEY,						XF86XK_AudioMute,			spawn, 			{.v = mutecmd } },
+	{ MODKEY,						XF86XK_AudioLowerVolume,	spawn, 			{.v = voldowncmd } },
+	{ MODKEY,						XF86XK_AudioRaiseVolume,	spawn, 			{.v = volupcmd } },
+	{ 0,							XF86XK_MonBrightnessUp,		spawn, 			{.v = brupcmd} },
+	{ 0,							XF86XK_MonBrightnessDown,	spawn, 			{.v = brdowncmd} },
+	{ 0,							XK_Print,					spawn,			{.v = printactive} },
+	{ MODKEY,						XK_Print,					spawn,			{.v = printroot} },
+	{ ShiftMask,					XK_Print,					spawn,			{.v = printselection} },
+	// TAGKEYS ON QWERTY
+	TAGKEYS(                        XK_1,                      	0)
+	TAGKEYS(                        XK_2,                      	1)
+	TAGKEYS(                        XK_3,                      	2)
+	TAGKEYS(                        XK_4,                      	3)
+	TAGKEYS(                        XK_5,                      	4)
+	TAGKEYS(                        XK_6,                      	5)
+	TAGKEYS(                        XK_7,                      	6)
+	TAGKEYS(                        XK_8,                      	7)
+	TAGKEYS(                        XK_9,                      	8)
+	// TAGKEYS ON AZERTY
+	TAGKEYS(                        0x26,                      	0)
+	TAGKEYS(                        0xe9,                      	1)
+	TAGKEYS(                        0x22,                      	2)
+	TAGKEYS(                        0x27,                      	3)
+	TAGKEYS(                        0x28,                      	4)
+	TAGKEYS(                        0x2d,                      	5)
+	TAGKEYS(                        0xe8,                      	6)
+	TAGKEYS(                        0x5f,                      	7)
+	TAGKEYS(                        0xe7,                      	8)
+	{ MODKEY|ShiftMask,             XK_q,      					quit,           	{0} }
 };
 
 /* button definitions */
