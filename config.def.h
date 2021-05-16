@@ -1,5 +1,8 @@
-#include <X11/XF86keysym.h> // pour avoir la correspondance multemedia keys xf86 keys
 
+#define DEBUG 0
+#define DEBUGPATH "/tmp/logfile"
+
+#include <X11/XF86keysym.h> // pour avoir la correspondance multemedia keys xf86 keys
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
@@ -52,9 +55,9 @@ static const Layout layouts[] = {
 /* key definitions */
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
-	{ MODKEY,                       KEY,      comboview,           	{.ui = 1 << TAG} }, \
+	{ MODKEY,                       KEY,      comboview,		{.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     	{.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      combotag,            	{.ui = 1 << TAG} }, \
+	{ MODKEY|ShiftMask,             KEY,      combotag,			{.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      	{.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
@@ -97,6 +100,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_b,      					togglebar,      {0} },
 	{ MODKEY,                       XK_j,      					focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      					focusstack,     {.i = -1 } },
+	{ MODKEY,                       XK_Up,      				focusstack,     {.i = +1 } },
+	{ MODKEY,                       XK_Down,					focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      					incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_d,      					incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      					setmfact,       {.f = -0.05} },
@@ -111,10 +116,10 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_space,  					togglefloating, {0} },
 	{ MODKEY,                       XK_0,      					view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      					tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  					focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_semicolon,				focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  					tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_semicolon,				tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_w,						focusmon,       {.i = -1 } },
+	{ MODKEY,                       XK_x,						focusmon,       {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_w,						tagmon,         {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_x,						tagmon,         {.i = +1 } },
 	{ MODKEY|ShiftMask,				XK_l,						spawn, 			{.v = lockcmd } },
 	{ MODKEY|ShiftMask,				XK_v,						spawn,			{.v = pavucontrol } },
 	{ 0,							XF86XK_AudioMute,			spawn, 			{.v = mutecmd } },
@@ -129,6 +134,8 @@ static Key keys[] = {
 	{ 0,							XK_Print,					spawn,			{.v = printactive} },
 	{ MODKEY,						XK_Print,					spawn,			{.v = printroot} },
 	{ ShiftMask,					XK_Print,					spawn,			{.v = printselection} },
+	{ MODKEY,                       XK_Left,      				comboviewshift,	{.i = -1} },
+	{ MODKEY,                       XK_Right,      				comboviewshift,	{.i = +1} },
 	// TAGKEYS ON QWERTY
 	TAGKEYS(                        XK_1,                      	0)
 	TAGKEYS(                        XK_2,                      	1)
