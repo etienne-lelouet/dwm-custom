@@ -4,12 +4,12 @@ My custom dwm config and install.
 
 Build using `make`, install using `make install`, building on debian requires the following packages:
 - `libx11-dev`
-- `libxft-dev̀
-- `libxinerama-dev̀
+- `libxft-dev` 
+- `libxinerama-dev`
 
 For the screenshot utilities to work, you need the following packages (from the debian repos) :
 - `imagemagick` (for the `import` command
-- ̀`xdotools̀` to get the id of the running window
+- `xdotools` to get the id of the running window
 - `xclip` to copy the screenshot to the clipboard
 
 The associated status bar is [here](https://github.com/etienne-lelouet/dwm-status).
