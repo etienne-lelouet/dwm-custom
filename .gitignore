@@ -4,7 +4,7 @@
 
 **/*.o
 
-**/dwm
+**/dwm.exe
 **/dmw.1
 
 **/config.h
