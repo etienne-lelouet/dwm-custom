@@ -74,60 +74,15 @@
 #define XEMBED_EMBEDDED_VERSION (VERSION_MAJOR << 16) | VERSION_MINOR
 
 /* enums */
-enum
-{
-	CurNormal,
-	CurResize,
-	CurMove,
-	CurLast
-}; /* cursor */
-enum
-{
-	SchemeNorm,
-	SchemeSel
-}; /* color schemes */
-enum
-{
-	NetSupported,
-	NetWMName,
-	NetWMState,
-	NetWMCheck,
-	NetSystemTray,
-	NetSystemTrayOP,
-	NetSystemTrayOrientation,
-	NetSystemTrayOrientationHorz,
-	NetWMFullscreen,
-	NetActiveWindow,
-	NetWMWindowType,
-	NetWMWindowTypeDialog,
-	NetClientList,
-	NetLast
-}; /* EWMH atoms */
-enum
-{
-	Manager,
-	Xembed,
-	XembedInfo,
-	XLast
-}; /* Xembed atoms */
-enum
-{
-	WMProtocols,
-	WMDelete,
-	WMState,
-	WMTakeFocus,
-	WMLast
-}; /* default atoms */
-enum
-{
-	ClkTagBar,
-	ClkLtSymbol,
-	ClkStatusText,
-	ClkWinTitle,
-	ClkClientWin,
-	ClkRootWin,
-	ClkLast
-}; /* clicks */
+enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
+enum { 	SchemeNorm, SchemeSel }; /* color schemes */
+enum { 	NetSupported, NetWMName, NetWMState, NetWMCheck,
+		NetSystemTray, NetSystemTrayOP, NetSystemTrayOrientation, NetSystemTrayOrientationHorz,
+		NetWMFullscreen, NetActiveWindow, NetWMWindowType,
+		NetWMWindowTypeDialog, NetClientList, NetdrawbarList, NetLast }; /* EWMH atoms */
+enum { Manager, Xembed, XembedInfo, XLast }; /* Xembed atoms */
+enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
+enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkdrawbarWin, ClkRootWin, ClkLast, ClkClientWin }; /* clicks */
 
 typedef union
 {
@@ -377,12 +332,14 @@ struct NumTags
 /* function implementations */
 static int combo = 0;
 
-void keyrelease(XEvent *e)
+void
+keyrelease(XEvent *e)
 {
 	combo = 0;
 }
 
-void combotag(const Arg *arg)
+void
+combotag(const Arg *arg)
 {
 	if (selmon->sel && arg->ui & TAGMASK)
 	{
@@ -400,7 +357,8 @@ void combotag(const Arg *arg)
 	}
 }
 
-void comboview(const Arg *arg)
+void
+comboview(const Arg *arg)
 {
 #if DEBUG == 1
 	fprintf(logfile, "comboview arg->ui %d \n", arg->ui);
@@ -425,7 +383,8 @@ void comboview(const Arg *arg)
 	arrange(selmon);
 }
 
-void comboviewshift(const Arg *arg)
+void
+comboviewshift(const Arg *arg)
 {
 	unsigned newtags;
 	if (arg->i == +1)
@@ -467,7 +426,8 @@ void comboviewshift(const Arg *arg)
 	comboview(&newarg);
 }
 
-void applyrules(Client *c)
+void
+applyrules(Client *c)
 {
 	const char *class, *instance;
 	unsigned int i;
@@ -502,7 +462,8 @@ void applyrules(Client *c)
 	c->tags = c->tags & TAGMASK ? c->tags & TAGMASK : c->mon->tagset[c->mon->seltags];
 }
 
-int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact)
+int
+applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact)
 {
 	int baseismin;
 	Monitor *m = c->mon;
@@ -574,7 +535,8 @@ int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact)
 	return *x != c->x || *y != c->y || *w != c->w || *h != c->h;
 }
 
-void arrange(Monitor *m)
+void
+arrange(Monitor *m)
 {
 	if (m)
 		showhide(m->stack);
@@ -591,20 +553,23 @@ void arrange(Monitor *m)
 			arrangemon(m);
 }
 
-void arrangemon(Monitor *m)
+void
+arrangemon(Monitor *m)
 {
 	strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof m->ltsymbol);
 	if (m->lt[m->sellt]->arrange)
 		m->lt[m->sellt]->arrange(m);
 }
 
-void attach(Client *c)
+void
+attach(Client *c)
 {
 	c->next = c->mon->clients;
 	c->mon->clients = c;
 }
 
-void attachstack(Client *c)
+void
+attachstack(Client *c)
 {
 	c->snext = c->mon->stack;
 	c->mon->stack = c;
@@ -973,13 +938,13 @@ dirtomon(int dir)
 
 void drawbar(Monitor *m)
 {
-	int x, w, sw = 0, stw = 0;
+	int x, w, tw = 0, stw = 0;
 	int boxs = drw->fonts->h / 9;
 	int boxw = drw->fonts->h / 6 + 2;
 	unsigned int i, occ = 0, urg = 0;
 	Client *c;
 
-	if (showsystray && m == systraytomon(m))
+	if (showsystray && m == systraytomon(m) && !systrayonleft)
 		stw = getsystraywidth();
 	if (!m->showbar)
 		return;
@@ -988,8 +953,8 @@ void drawbar(Monitor *m)
 	if (m == selmon)
 	{ /* status is only drawn on selected monitor */
 		drw_setscheme(drw, scheme[SchemeNorm]);
-		sw = TEXTW(stext) - lrpad / 2 + 2; /* 2px right padding */
-		drw_text(drw, m->ww - sw - stw, 0, sw, bh, lrpad / 2 - 2, stext, 0);
+		tw = TEXTW(stext) - lrpad / 2 + 2; /* 2px extra right padding */
+		drw_text(drw, m->ww - tw - stw, 0, tw, bh, lrpad / 2 - 2, stext, 0);
 	}
 
 	resizebarwin(m);
@@ -1015,7 +980,7 @@ void drawbar(Monitor *m)
 	drw_setscheme(drw, scheme[SchemeNorm]);
 	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
 
-	if ((w = m->ww - sw - stw - x) > bh)
+	if ((w = m->ww - tw - stw - x) > bh)
 	{
 		if (m->sel)
 		{
@@ -2251,7 +2216,8 @@ void updatebars(void)
 	}
 }
 
-void updatebarpos(Monitor *m)
+void
+updatebarpos(Monitor *m)
 {
 	m->wy = m->my;
 	m->wh = m->mh;
@@ -2265,7 +2231,8 @@ void updatebarpos(Monitor *m)
 		m->by = -bh;
 }
 
-void updateclientlist()
+void
+updateclientlist()
 {
 	Client *c;
 	Monitor *m;
@@ -2278,7 +2245,8 @@ void updateclientlist()
 							(unsigned char *)&(c->win), 1);
 }
 
-int updategeom(void)
+int
+updategeom(void)
 {
 	int dirty = 0;
 
@@ -2366,7 +2334,8 @@ int updategeom(void)
 	return dirty;
 }
 
-void updatenumlockmask(void)
+void
+updatenumlockmask(void)
 {
 	unsigned int i, j;
 	XModifierKeymap *modmap;
@@ -2380,7 +2349,8 @@ void updatenumlockmask(void)
 	XFreeModifiermap(modmap);
 }
 
-void updatesizehints(Client *c)
+void
+updatesizehints(Client *c)
 {
 	long msize;
 	XSizeHints size;
@@ -2436,7 +2406,8 @@ void updatesizehints(Client *c)
 	c->isfixed = (c->maxw && c->maxh && c->maxw == c->minw && c->maxh == c->minh);
 }
 
-void updatestatus(void)
+void
+updatestatus(void)
 {
 	if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
 		strcpy(stext, "dwm-" VERSION);
@@ -2444,7 +2415,8 @@ void updatestatus(void)
 	updatesystray();
 }
 
-void updatesystrayicongeom(Client *i, int w, int h)
+void
+updatesystrayicongeom(Client *i, int w, int h)
 {
 	if (i)
 	{
@@ -2720,7 +2692,7 @@ void zoom(const Arg *arg)
 int main(int argc, char *argv[])
 {
 	if (argc == 2 && !strcmp("-v", argv[1]))
-		die("dwm-" VERSION);
+		die("etienne-dwm-" VERSION);
 	else if (argc != 1)
 		die("usage: dwm [-v]");
 	if (!setlocale(LC_CTYPE, "") || !XSupportsLocale())
