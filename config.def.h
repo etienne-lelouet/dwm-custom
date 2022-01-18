@@ -76,6 +76,7 @@ static const char *termcmd[]  = { "st", NULL };
 static const char *mutecmd[] = { "pactl-volumectl", "-m", "-d", NULL };
 static const char *volupcmd[] = { "pactl-volumectl", "-o", "+", "-v", "5", "-d", NULL };
 static const char *voldowncmd[] = { "pactl-volumectl", "-o", "-", "-v", "5", "-d",  NULL };
+static const char *changesinkcmd[] = { "pactl-volumectl", "-c", NULL };
 
 static const char *brupcmd[] = { "brightnessctl", "-d", "intel_backlight", "set", "5%+", NULL };
 static const char *brdowncmd[] = { "brightnessctl", "-d", "intel_backlight", "set", "5%-", NULL };
@@ -130,10 +131,12 @@ static Key keys[] = {
 	{ 0,							XF86XK_AudioMute,			spawn, 			{.v = mutecmd } },
 	{ 0,							XF86XK_AudioLowerVolume,	spawn, 			{.v = voldowncmd } },
 	{ 0,							XF86XK_AudioRaiseVolume,	spawn, 			{.v = volupcmd } },
+	{ 0,							XF86XK_AudioPlay,			spawn, 			{.v = changesinkcmd } },
 	// because fn is now meta
 	{ MODKEY,						XF86XK_AudioMute,			spawn, 			{.v = mutecmd } },
 	{ MODKEY,						XF86XK_AudioLowerVolume,	spawn, 			{.v = voldowncmd } },
 	{ MODKEY,						XF86XK_AudioRaiseVolume,	spawn, 			{.v = volupcmd } },
+	{ MODKEY,						XF86XK_AudioPlay,			spawn, 			{.v = changesinkcmd } },
 	{ 0,							XF86XK_MonBrightnessUp,		spawn, 			{.v = brupcmd} },
 	{ 0,							XF86XK_MonBrightnessDown,	spawn, 			{.v = brdowncmd} },
 	{ 0,							XK_Print,					spawn,			{.v = printactive} },
