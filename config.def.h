@@ -38,7 +38,7 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class	instance	title		tags mask	isfloating	monitor */
-	{ "Steam",	"Steam",	"Steam",	0,			1,			-1 },
+	// { "Steam",	"Steam",	"Steam",	0,			1,			-1 },
 	{ "qemu",	"qemu",		"QEMU",		0,			1,			-1 }
 };
 
